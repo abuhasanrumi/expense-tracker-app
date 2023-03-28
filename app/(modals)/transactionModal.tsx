@@ -54,8 +54,19 @@ const TransactionModal = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
 
-  const oldTransaction: { name: string; image: string; id: string } =
-    useLocalSearchParams()
+  type paramType = {
+    id?: string
+    type?: string
+    amount?: string
+    category?: string
+    date?: string
+    description?: string
+    image?: string
+    walletId?: string
+    uid?: string
+  }
+
+  const oldTransaction: paramType = useLocalSearchParams()
 
   const onDateChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || transaction.date
