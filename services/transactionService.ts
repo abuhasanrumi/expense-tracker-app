@@ -22,6 +22,11 @@ export const createOrUpdateTransaction = async (
       )
 
       const oldTransaction = oldTransactionSnapshot.data() as TransactionType
+
+      const shouldRevertOriginal =
+        oldTransaction.type != type ||
+        oldTransaction.amount != amount ||
+        oldTransaction.walletId != walletId
     } else {
       let res = await updateWalletForNewTransaction(
         walletId!,
