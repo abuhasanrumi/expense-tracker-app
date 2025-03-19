@@ -20,6 +20,8 @@ export const createOrUpdateTransaction = async (
       const oldTransactionSnapshot = await getDoc(
         doc(firestore, 'transactions', id)
       )
+
+      const oldTransaction = oldTransactionSnapshot.data() as TransactionType
     } else {
       let res = await updateWalletForNewTransaction(
         walletId!,
