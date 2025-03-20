@@ -7,6 +7,7 @@ import {
 } from '@/types'
 import { verticalScale } from '@/utils/styling'
 import { FlashList } from '@shopify/flash-list'
+import { useRouter } from 'expo-router'
 import { Timestamp } from 'firebase/firestore'
 import React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'

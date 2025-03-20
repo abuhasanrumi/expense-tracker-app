@@ -17,7 +17,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { orderBy, where } from 'firebase/firestore'
 import { Trash } from 'phosphor-react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Alert,
   Platform,
@@ -112,6 +112,9 @@ const TransactionModal = () => {
 
     console.log('Transaction Data: ', transactionData)
 
+    if (oldTransaction?.id) {
+      transactionData.id = oldTransaction.id
+    }
     setLoading(true)
     const res = await createOrUpdateTransaction(transactionData)
     setLoading(false)
