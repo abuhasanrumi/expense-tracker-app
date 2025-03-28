@@ -74,14 +74,19 @@ const TransactionModal = () => {
     setShowDatePicker(Platform.OS == 'ios' ? true : false)
   }
 
-  // useEffect(() => {
-  //   if (oldTransaction?.id) {
-  //     setTransaction({
-  //       name: oldTransaction.name,
-  //       image: oldTransaction.image
-  //     })
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (oldTransaction?.id) {
+      setTransaction({
+        type: oldTransaction.type || 'expense',
+        amount: Number(oldTransaction.amount || 0),
+        description: oldTransaction.description || '',
+        category: oldTransaction.category || '',
+        date: new Date(oldTransaction.date || new Date()),
+        walletId: oldTransaction.walletId || '',
+        image: oldTransaction.image || null
+      })
+    }
+  }, [])
 
   const onSubmit = async () => {
     const { type, amount, description, category, date, walletId, image } =
