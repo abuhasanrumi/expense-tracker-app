@@ -1,30 +1,36 @@
-import { StyleSheet, Text, View, Pressable, Alert } from 'react-native'
+import { colors } from '@/constants/theme'
+import { useAuth } from '@/contexts/authContext'
+import { verticalScale } from '@/utils/styling'
+import { useRouter } from 'expo-router'
+import { At, Lock } from 'phosphor-react-native'
 import React, { useRef, useState } from 'react'
+import { Alert, Pressable, StyleSheet, View } from 'react-native'
+import BackButton from '../../components/BackButton'
+import Button from '../../components/Button'
+import Input from '../../components/Input'
 import ScreenWrapper from '../../components/ScreenWrapper'
 import Typo from '../../components/Typo'
-import { spacingY, spacingX } from '../../constants/theme'
-import { verticalScale } from '@/utils/styling'
-import BackButton from '../../components/BackButton'
-import { colors } from '@/constants/theme'
-import Input from '../../components/Input'
-import { At, Lock } from 'phosphor-react-native'
-import { useRouter } from 'expo-router'
-import Button from '../../components/Button'
+import { spacingX, spacingY } from '../../constants/theme'
 
 const Login = () => {
   const emailRef = useRef('')
   const passwordRef = useRef('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { login: loginUser } = useAuth()
 
   const handleSubmit = async () => {
     if (!emailRef.current || !passwordRef.current) {
       Alert.alert('Login', 'Please fill all the fields')
       return
     }
-    console.log('email', emailRef.current)
-    console.log('password', passwordRef.current)
-    console.log('Good to go')
+    setIsLoading(true)
+    const response = await loginUser(emailRef.current, passwordRef.current)
+    setIsLoading(false)
+    if (!response.success) {
+      Alert.alert('Login', response.msg)
+      return
+    }
   }
 
   return (
