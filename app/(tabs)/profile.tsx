@@ -1,19 +1,23 @@
 import Header from '@/components/Header'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import Typo from '@/components/Typo'
+import { auth } from '@/config/firebase'
 import { colors, radius, spacingX, spacingY } from '@/constants/theme'
 import { useAuth } from '@/contexts/authContext'
 import { getProfileImage } from '@/services/imageService'
 import { accountOptionType } from '@/types'
 import { verticalScale } from '@/utils/styling'
 import { Image } from 'expo-image'
+import { useRouter } from 'expo-router'
+import { signOut } from 'firebase/auth'
 import { CaretRight, GearSix, Lock, Power, User } from 'phosphor-react-native'
 import React from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 
 const Profile = () => {
   const { user } = useAuth()
+  const router = useRouter()
 
   const accountOptions: accountOptionType[] = [
     {
@@ -41,6 +45,34 @@ const Profile = () => {
       bgColor: '#e11d48'
     }
   ]
+
+  const handleLogout = async () => {
+    await signOut(auth)
+  }
+
+  const showLogoutAlert = () => {
+    Alert.alert('Logout', 'Are you sure you want to logout?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel'
+      },
+      {
+        text: 'Logout',
+        onPress: () => handleLogout(),
+        style: 'destructive'
+      }
+    ])
+  }
+
+  const handlePress = (item: accountOptionType) => {
+    if (item.title == 'Logout') {
+      showLogoutAlert()
+    }
+    if (item.routeName) {
+      router.push(item.routeName)
+    }
+  }
   return (
     <ScreenWrapper>
       <View style={styles.container}>
@@ -54,7 +86,6 @@ const Profile = () => {
               contentFit='cover'
               transition={100}
             />
-            <View style={styles.editIcon} />
           </View>
 
           <View style={styles.nameContainer}>
@@ -75,7 +106,9 @@ const Profile = () => {
                   .springify()
                   .damping(14)}
                 style={styles.listItem}>
-                <TouchableOpacity style={styles.flexRow}>
+                <TouchableOpacity
+                  style={styles.flexRow}
+                  onPress={() => handlePress(option)}>
                   <View
                     style={[
                       styles.listIcon,
