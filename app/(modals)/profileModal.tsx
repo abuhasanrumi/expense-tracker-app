@@ -11,6 +11,7 @@ import { updateUser } from '@/services/userService'
 import { UserDataType } from '@/types'
 import { scale, verticalScale } from '@/utils/styling'
 import { Image } from 'expo-image'
+import * as ImagePicker from 'expo-image-picker'
 import { useRouter } from 'expo-router'
 import { Pencil } from 'phosphor-react-native'
 import React, { useEffect, useState } from 'react'
@@ -53,6 +54,18 @@ const ProfileModal = () => {
       router.back()
     } else Alert.alert('User', res.msg)
   }
+
+  const onPickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      aspect: [4, 3],
+      quality: 0.5
+    })
+
+    if (!result.canceled) {
+      setUserData({ ...userData, image: result.assets[0] })
+    }
+  }
   return (
     <ModalWrapper>
       <View style={styles.container}>
@@ -71,7 +84,7 @@ const ProfileModal = () => {
               transition={100}
             />
 
-            <TouchableOpacity style={styles.editIcon}>
+            <TouchableOpacity onPress={onPickImage} style={styles.editIcon}>
               <Pencil size={verticalScale(20)} color={colors.neutral800} />
             </TouchableOpacity>
           </View>
