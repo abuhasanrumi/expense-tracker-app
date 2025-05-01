@@ -43,7 +43,7 @@ const ProfileModal = () => {
   const onSubmit = async () => {
     let { name, image } = userData
     if (!name.trim()) {
-      Alert.alert('User', 'Please fill all the fields')
+      Alert.alert('User', 'Please fill all the fields.')
       return
     }
     setLoading(true)
