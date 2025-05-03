@@ -1,9 +1,23 @@
 import { firestore } from '@/config/firebase'
 import { UserDataType } from '@/types'
 import { doc, updateDoc } from 'firebase/firestore'
+import { uploadFileToCloudinary } from './imageService'
 
 export const updateUser = async (uid: string, updatedData: UserDataType) => {
   try {
+    if (updatedData.image && updatedData?.image?.uri) {
+      const imageUploadRes = await uploadFileToCloudinary(
+        updatedData.image,
+        'users'
+      )
+      if (!imageUploadRes.success) {
+        return {
+          success: false,
+          message: imageUploadRes.message || 'Failed to upload image'
+        }
+      }
+      updatedData.image = imageUploadRes.data
+    }
     const userRef = doc(firestore, 'users', uid)
     await updateDoc(userRef, updatedData)
 
