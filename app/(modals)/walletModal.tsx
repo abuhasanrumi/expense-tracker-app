@@ -1,6 +1,7 @@
 import BackButton from '@/components/BackButton'
 import Button from '@/components/Button'
 import Header from '@/components/Header'
+import ImageUpload from '@/components/ImageUpload'
 import Input from '@/components/Input'
 import ModalWrapper from '@/components/ModalWrapper'
 import Typo from '@/components/Typo'
@@ -26,7 +27,7 @@ const WalletModal = () => {
 
   const onSubmit = async () => {
     let { name, image } = wallet
-    if (!name.trim()) {
+    if (!name.trim() || !image) {
       Alert.alert('User', 'Please fill all the fields.')
       return
     }
@@ -66,6 +67,16 @@ const WalletModal = () => {
               placeholder='Salary'
               value={wallet.name}
               onChangeText={(value) => setWallet({ ...wallet, name: value })}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Typo color={colors.neutral200}>Wallet Icon</Typo>
+            <ImageUpload
+              file={wallet.image}
+              onClear={() => setWallet({ ...wallet, image: null })}
+              onSelect={(file) => setWallet({ ...wallet, image: file })}
+              placeholder='Upload Image'
             />
           </View>
         </ScrollView>
