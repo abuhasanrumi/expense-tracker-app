@@ -7,7 +7,7 @@ import ModalWrapper from '@/components/ModalWrapper'
 import Typo from '@/components/Typo'
 import { colors, spacingX, spacingY } from '@/constants/theme'
 import { useAuth } from '@/contexts/authContext'
-import { createOrUpdateWallet } from '@/services/walletService'
+import { createOrUpdateWallet, deleteWallet } from '@/services/walletService'
 import { WalletType } from '@/types'
 import { scale, verticalScale } from '@/utils/styling'
 import { useLocalSearchParams, useRouter } from 'expo-router'
@@ -57,7 +57,15 @@ const WalletModal = () => {
     } else Alert.alert('Wallet', res.msg)
   }
 
-  const onDelete = async () => {}
+  const onDelete = async () => {
+    if (!oldWallet?.id) return
+    setLoading(true)
+    const res = await deleteWallet(oldWallet.id)
+    setLoading(false)
+    if (res.success) {
+      router.back()
+    } else Alert.alert('Wallet', res.msg || 'Something went wrong')
+  }
 
   const showDeleteAlert = () => {
     Alert.alert(
@@ -110,7 +118,7 @@ const WalletModal = () => {
       </View>
 
       <View style={styles.footer}>
-        {oldWallet?.id && (
+        {oldWallet?.id && !loading && (
           <Button
             onPress={showDeleteAlert}
             style={{
