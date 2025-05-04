@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   },
   listStyle: {
     paddingVertical: spacingY._10,
+    paddingHorizontal: spacingX._10,
     paddingTop: spacingY._15
   }
 })
