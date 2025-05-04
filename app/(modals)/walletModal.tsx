@@ -10,8 +10,9 @@ import { useAuth } from '@/contexts/authContext'
 import { createOrUpdateWallet } from '@/services/walletService'
 import { WalletType } from '@/types'
 import { scale, verticalScale } from '@/utils/styling'
-import { useRouter } from 'expo-router'
-import React, { useState } from 'react'
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import { Trash } from 'phosphor-react-native'
+import React, { useEffect, useState } from 'react'
 import { Alert, ScrollView, StyleSheet, View } from 'react-native'
 
 const WalletModal = () => {
@@ -24,6 +25,18 @@ const WalletModal = () => {
 
   const [loading, setLoading] = useState<boolean>(false)
 
+  const oldWallet: { name: string; image: string; id: string } =
+    useLocalSearchParams()
+
+  useEffect(() => {
+    if (oldWallet?.id) {
+      setWallet({
+        name: oldWallet.name,
+        image: oldWallet.image
+      })
+    }
+  }, [])
+
   const onSubmit = async () => {
     let { name, image } = wallet
     if (!name.trim() || !image) {
@@ -35,6 +48,7 @@ const WalletModal = () => {
       image,
       uid: user?.uid
     }
+    if (oldWallet?.id) data.id = oldWallet.id
     setLoading(true)
     const res = await createOrUpdateWallet(data)
     setLoading(false)
@@ -43,11 +57,32 @@ const WalletModal = () => {
     } else Alert.alert('Wallet', res.msg)
   }
 
+  const onDelete = async () => {}
+
+  const showDeleteAlert = () => {
+    Alert.alert(
+      'Delete Wallet',
+      'Are you sure you want to delete this wallet?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => onDelete()
+        }
+      ]
+    )
+  }
+
   return (
     <ModalWrapper>
       <View style={styles.container}>
         <Header
-          title='New Wallet'
+          title={oldWallet?.id ? 'Update Wallet' : 'New Wallet'}
           leftIcon={<BackButton />}
           style={{ marginBottom: spacingY._10 }}
         />
@@ -75,9 +110,23 @@ const WalletModal = () => {
       </View>
 
       <View style={styles.footer}>
+        {oldWallet?.id && (
+          <Button
+            onPress={showDeleteAlert}
+            style={{
+              backgroundColor: colors.rose,
+              paddingHorizontal: spacingX._15
+            }}>
+            <Trash
+              color={colors.white}
+              size={verticalScale(24)}
+              weight='bold'
+            />
+          </Button>
+        )}
         <Button onPress={onSubmit} loading={loading} style={{ flex: 1 }}>
           <Typo color={colors.black} fontWeight={'700'}>
-            Add Wallet
+            {oldWallet?.id ? 'Update Wallet' : 'Add Wallet'}
           </Typo>
         </Button>
       </View>
