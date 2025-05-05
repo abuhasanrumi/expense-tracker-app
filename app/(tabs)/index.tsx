@@ -1,3 +1,4 @@
+import Button from '@/components/Button'
 import HomeCard from '@/components/HomeCard'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import TransactionList from '@/components/TransactionList'
@@ -5,12 +6,14 @@ import Typo from '@/components/Typo'
 import { colors, spacingX, spacingY } from '@/constants/theme'
 import { useAuth } from '@/contexts/authContext'
 import { verticalScale } from '@/utils/styling'
-import { MagnifyingGlass } from 'phosphor-react-native'
+import { useRouter } from 'expo-router'
+import { MagnifyingGlass, Plus } from 'phosphor-react-native'
 import React from 'react'
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 
 const Home = () => {
   const { user } = useAuth()
+  const router = useRouter()
   return (
     <ScreenWrapper>
       <View style={styles.container}>
@@ -46,6 +49,12 @@ const Home = () => {
             title='Recent Transactions'
           />
         </ScrollView>
+
+        <Button
+          style={styles.floatingButton}
+          onPress={() => router.push('/(modals)/transactionModal')}>
+          <Plus color={colors.black} weight='bold' size={verticalScale(24)} />
+        </Button>
       </View>
     </ScreenWrapper>
   )
