@@ -1,11 +1,13 @@
+import HomeCard from '@/components/HomeCard'
 import ScreenWrapper from '@/components/ScreenWrapper'
+import TransactionList from '@/components/TransactionList'
 import Typo from '@/components/Typo'
 import { colors, spacingX, spacingY } from '@/constants/theme'
 import { useAuth } from '@/contexts/authContext'
 import { verticalScale } from '@/utils/styling'
 import { MagnifyingGlass } from 'phosphor-react-native'
 import React from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 
 const Home = () => {
   const { user } = useAuth()
@@ -29,6 +31,16 @@ const Home = () => {
             />
           </TouchableOpacity>
         </View>
+
+        <ScrollView
+          contentContainerStyle={styles.scrollViewStyle}
+          showsVerticalScrollIndicator={false}>
+          <View>
+            <HomeCard />
+          </View>
+
+          <TransactionList />
+        </ScrollView>
       </View>
     </ScreenWrapper>
   )
