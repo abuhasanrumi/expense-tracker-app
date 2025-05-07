@@ -95,14 +95,16 @@ const TransactionModal = () => {
     <ModalWrapper>
       <View style={styles.container}>
         <Header
-          title={oldTransaction?.id ? 'Update Wallet' : 'New Wallet'}
+          title={oldTransaction?.id ? 'Update Transaction' : 'New Transaction'}
           leftIcon={<BackButton />}
           style={{ marginBottom: spacingY._10 }}
         />
 
-        <ScrollView contentContainerStyle={styles.form}>
+        <ScrollView
+          contentContainerStyle={styles.form}
+          showsVerticalScrollIndicator={false}>
           <View style={styles.inputContainer}>
-            <Typo color={colors.neutral200}>Wallet Name</Typo>
+            <Typo color={colors.neutral200}>Transaction Name</Typo>
             <Input
               placeholder='Salary'
               value={transaction.name}
@@ -113,7 +115,7 @@ const TransactionModal = () => {
           </View>
 
           <View style={styles.inputContainer}>
-            <Typo color={colors.neutral200}>Wallet Icon</Typo>
+            <Typo color={colors.neutral200}>Transaction Icon</Typo>
             <ImageUpload
               file={transaction.image}
               onClear={() => setTransaction({ ...transaction, image: null })}
@@ -143,7 +145,7 @@ const TransactionModal = () => {
         )}
         <Button onPress={onSubmit} loading={loading} style={{ flex: 1 }}>
           <Typo color={colors.black} fontWeight={'700'}>
-            {oldTransaction?.id ? 'Update Wallet' : 'Add Wallet'}
+            {oldTransaction?.id ? 'Update Transaction' : 'Add Transaction'}
           </Typo>
         </Button>
       </View>
