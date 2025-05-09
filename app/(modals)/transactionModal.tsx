@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import ImageUpload from '@/components/ImageUpload'
 import ModalWrapper from '@/components/ModalWrapper'
 import Typo from '@/components/Typo'
+import { transactionTypes } from '@/constants/data'
 import { colors, radius, spacingX, spacingY } from '@/constants/theme'
 import { useAuth } from '@/contexts/authContext'
 import { deleteWallet } from '@/services/walletService'
@@ -91,31 +92,6 @@ const TransactionModal = () => {
     )
   }
 
-  const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' }
-  ]
-
-  const renderLabel = () => {
-    if (value || isFocus) {
-      return (
-        <Text style={[styles.label, isFocus && { color: 'blue' }]}>
-          Dropdown label
-        </Text>
-      )
-    }
-    return null
-  }
-
-  const [value, setValue] = useState(null)
-  const [isFocus, setIsFocus] = useState(false)
-
   return (
     <ModalWrapper>
       <View style={styles.container}>
@@ -139,27 +115,16 @@ const TransactionModal = () => {
               itemContainerStyle={styles.dropdownItemContainer}
               containerStyle={styles.dropdownListContainer}
               iconStyle={styles.dropdownIcon}
-              data={data}
+              data={transactionTypes}
               maxHeight={300}
               labelField='label'
               valueField='value'
               // placeholder={!isFocus ? 'Select item' : '...'}
-              // searchPlaceholder='Search...'
-              value={value}
-              // onFocus={() => setIsFocus(true)}
-              // onBlur={() => setIsFocus(false)}
+              value={transaction.type}
               onChange={(item) => {
                 setValue(item.value)
                 setIsFocus(false)
               }}
-              // renderLeftIcon={() => (
-              //   <AntDesign
-              //     style={styles.icon}
-              //     color={isFocus ? 'blue' : 'black'}
-              //     name='Safety'
-              //     size={20}
-              //   />
-              // )}
             />
           </View>
 
