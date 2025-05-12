@@ -71,7 +71,30 @@ const TransactionModal = () => {
   //   }
   // }, [])
 
-  const onSubmit = async () => {}
+  const onSubmit = async () => {
+    const { type, amount, description, category, date, walletId, image } =
+      transaction
+
+    if (!walletId || !date || !amount || (type == 'expense' && !category)) {
+      Alert.alert('Transaction', 'Please fill all the fields')
+      return
+    }
+
+    console.log('Good to go')
+
+    let transactionData: TransactionType = {
+      type,
+      amount,
+      description,
+      category,
+      date,
+      walletId,
+      image,
+      uid: user?.uid
+    }
+
+    console.log('Transaction Data: ', transactionData)
+  }
 
   const onDelete = async () => {
     if (!oldTransaction?.id) return
