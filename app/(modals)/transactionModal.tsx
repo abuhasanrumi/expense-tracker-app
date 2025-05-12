@@ -11,9 +11,7 @@ import useFetchData from '@/hooks/useFetchData'
 import { deleteWallet } from '@/services/walletService'
 import { TransactionType, WalletType } from '@/types'
 import { scale, verticalScale } from '@/utils/styling'
-import DateTimePicker, {
-  DateTimePickerEvent
-} from '@react-native-community/datetimepicker'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { orderBy, where } from 'firebase/firestore'
 import { Trash } from 'phosphor-react-native'
@@ -57,7 +55,7 @@ const TransactionModal = () => {
   const oldTransaction: { name: string; image: string; id: string } =
     useLocalSearchParams()
 
-  const onDateChange = (event: DateTimePickerEvent, selectedDate: Date) => {
+  const onDateChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || transaction.date
     setTransaction({ ...transaction, date: currentDate })
     setShowDatePicker(false)
@@ -232,7 +230,9 @@ const TransactionModal = () => {
                   onChange={onDateChange}
                 />
                 {Platform.OS == 'ios' && (
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.datePickerButton}
+                    onPress={() => setShowDatePicker(false)}>
                     <Typo size={15} fontWeight={'500'}>
                       Ok
                     </Typo>
