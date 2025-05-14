@@ -27,7 +27,7 @@ const HomeCard = () => {
       (totals: any, item: WalletType) => {
         totals.balance = totals.balance + Number(item.amount)
         totals.income = totals.income + Number(item.totalIncome)
-        totals.expenses = totals.expenses + Number(item.totalExpenses)
+        totals.expenses = totals.expenses + Number(item.totalExpense)
 
         return totals
       },
@@ -53,7 +53,7 @@ const HomeCard = () => {
             />
           </View>
           <Typo color={colors.black} size={30} fontWeight={'bold'}>
-            ${getTotals()?.balance?.toFixed(2)}
+            ${walletLoading ? '----' : getTotals()?.balance?.toFixed(2)}
           </Typo>
         </View>
 
@@ -73,7 +73,7 @@ const HomeCard = () => {
             </View>
             <View style={{ alignSelf: 'center' }}>
               <Typo size={17} color={colors.green} fontWeight={'600'}>
-                $2342
+                ${walletLoading ? '----' : getTotals()?.income?.toFixed(2)}
               </Typo>
             </View>
           </View>
@@ -93,7 +93,10 @@ const HomeCard = () => {
             </View>
             <View style={{ alignSelf: 'center' }}>
               <Typo size={17} color={colors.rose} fontWeight={'600'}>
-                $2342
+                $
+                {walletLoading
+                  ? '----'
+                  : getTotals()?.expenses?.toFixed(2) || 0}
               </Typo>
             </View>
           </View>
