@@ -9,6 +9,7 @@ import { expenseCategories, transactionTypes } from '@/constants/data'
 import { colors, radius, spacingX, spacingY } from '@/constants/theme'
 import { useAuth } from '@/contexts/authContext'
 import useFetchData from '@/hooks/useFetchData'
+import { createOrUpdateTransaction } from '@/services/transactionService'
 import { deleteWallet } from '@/services/walletService'
 import { TransactionType, WalletType } from '@/types'
 import { scale, verticalScale } from '@/utils/styling'
@@ -94,6 +95,15 @@ const TransactionModal = () => {
     }
 
     console.log('Transaction Data: ', transactionData)
+
+    setLoading(true)
+    const res = await createOrUpdateTransaction(transactionData)
+    setLoading(false)
+    if (res.success) {
+      router.back()
+    } else {
+      Alert.alert('Transaction', res.msg || 'Something went wrong')
+    }
   }
 
   const onDelete = async () => {

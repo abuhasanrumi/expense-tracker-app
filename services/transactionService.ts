@@ -1,11 +1,11 @@
 import { firestore } from '@/config/firebase'
-import { TransactionType, WalletType } from '@/types'
+import { ResponseType, TransactionType, WalletType } from '@/types'
 import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { uploadFileToCloudinary } from './imageService'
 
 export const createOrUpdateTransaction = async (
   transactionData: Partial<TransactionType>
-) => {
+): Promise<ResponseType> => {
   try {
     const { id, type, walletId, amount, image } = transactionData
     if (!amount || amount <= 0 || !type) {
