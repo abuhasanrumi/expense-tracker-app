@@ -1,6 +1,10 @@
 import { expenseCategories, incomeCategory } from '@/constants/data'
 import { colors, radius, spacingX, spacingY } from '@/constants/theme'
-import { TransactionItemProps, TransactionListType } from '@/types'
+import {
+  TransactionItemProps,
+  TransactionListType,
+  TransactionType
+} from '@/types'
 import { verticalScale } from '@/utils/styling'
 import { FlashList } from '@shopify/flash-list'
 import { Timestamp } from 'firebase/firestore'
@@ -16,7 +20,24 @@ const TransactionList = ({
   loading,
   emptyListMessage
 }: TransactionListType) => {
-  const handleClick = () => {}
+  const router = useRouter()
+
+  const handleClick = (item: TransactionType) => {
+    router.push({
+      pathname: '/(modals)/transactionModal',
+      params: {
+        id: item?.id,
+        type: item?.type,
+        amount: item?.amount?.toString(),
+        category: item?.category,
+        date: (item?.date as Timestamp)?.toDate().toISOString(),
+        description: item?.description,
+        image: item?.image,
+        walletId: item?.walletId,
+        uid: item?.uid
+      }
+    })
+  }
   return (
     <View style={styles.container}>
       {title && (
@@ -67,6 +88,7 @@ const TransactionItem = ({
     month: 'short',
     day: 'numeric'
   })
+
   return (
     <Animated.View
       entering={FadeInDown.delay(index * 70)
