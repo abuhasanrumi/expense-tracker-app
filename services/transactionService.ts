@@ -147,6 +147,10 @@ const revertAndUpdateWallets = async (
     )
 
     const originalWallet = originalWalletSnapshot.data() as WalletType
+
+    let newWalletSnapshot = await getDoc(doc(firestore, 'wallets', newWalletId))
+
+    let newWallet = newWalletSnapshot.data() as WalletType
     return { success: true }
   } catch (err: any) {
     console.log('Error updating wallet: ', err)
