@@ -35,6 +35,9 @@ export const createOrUpdateTransaction = async (
           type,
           walletId
         )
+        if (!res.success) {
+          return res
+        }
       }
     } else {
       let res = await updateWalletForNewTransaction(
@@ -122,6 +125,28 @@ const updateWalletForNewTransaction = async (
       amount: updatedWalletAmount,
       [updateType]: updatedTotals
     })
+    return { success: true }
+  } catch (err: any) {
+    console.log('Error updating wallet: ', err)
+    return {
+      success: false,
+      msg: err?.message || "Couldn't update wallet"
+    }
+  }
+}
+
+const revertAndUpdateWallets = async (
+  oldTransaction: TransactionType,
+  newTransactionAmount: number,
+  newTransactionType: 'income' | 'expense',
+  newWalletId: string
+) => {
+  try {
+    const originalWalletSnapshot = await getDoc(
+      doc(firestore, 'wallets', oldTransaction.walletId)
+    )
+
+    const originalWallet = originalWalletSnapshot.data() as WalletType
     return { success: true }
   } catch (err: any) {
     console.log('Error updating wallet: ', err)
