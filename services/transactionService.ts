@@ -162,9 +162,32 @@ const revertAndUpdateWallets = async (
 
     const revertedWalletAmount =
       Number(originalWallet.amount) + revertIncomeExpense
+    // wallet amount after the trx is removed
 
     const revertedIncomeExpenseAmount =
       Number(originalWallet[revertType]) - Number(oldTransaction.amount)
+
+    if (newTransactionType == 'expense') {
+      // if user tries to convert income to expense on the same wallet
+      // or if the user tried to increase the expense amount and dont have anough balance
+      if (
+        oldTransaction.waalletId == newWalletId &&
+        revertedWalletAmount < newTransactionAmount
+      ) {
+        return {
+          success: false,
+          msg: 'Insufficient balance'
+        }
+      }
+
+      // if user tries  to add expense from a new wallet and the wallet dont have anough balance
+      if (newWallet.amount! < newTransactionAmount) {
+        return {
+          success: false,
+          msg: 'Insufficient balance'
+        }
+      }
+    }
 
     return { success: true }
   } catch (err: any) {
