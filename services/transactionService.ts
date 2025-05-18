@@ -226,3 +226,5 @@ const revertAndUpdateWallets = async (
     }
   }
 }
+
+export const deleteTransaction () => { }
