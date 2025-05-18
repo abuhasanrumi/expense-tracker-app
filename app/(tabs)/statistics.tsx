@@ -1,9 +1,10 @@
 import Header from '@/components/Header'
+import Loading from '@/components/Loading'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import { colors, radius, spacingX, spacingY } from '@/constants/theme'
 import { scale, verticalScale } from '@/utils/styling'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { BarChart } from 'react-native-gifted-charts'
 
@@ -71,6 +72,22 @@ const barData = [
 const Statistics = () => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [chartData, setChartData] = useState(barData)
+  const [chartLoading, setChartLoading] = useState(false)
+
+  const getWeeklyStats = () => {}
+  const getMonthlyStats = () => {}
+  const getYearlyStats = () => {}
+
+  useEffect(() => {
+    if (selectedIndex === 0) {
+      getWeeklyStats()
+    } else if (selectedIndex === 1) {
+      getMonthlyStats()
+    } else {
+      getYearlyStats()
+    }
+  }, [selectedIndex])
+
   return (
     <ScreenWrapper>
       <View style={styles.container}>
@@ -126,6 +143,12 @@ const Statistics = () => {
               />
             ) : (
               <View style={styles.noChart} />
+            )}
+
+            {chartLoading && (
+              <View style={styles.chartLoadingContainer}>
+                <Loading color={colors.white} />
+              </View>
             )}
           </View>
         </ScrollView>
