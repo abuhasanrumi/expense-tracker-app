@@ -9,8 +9,10 @@ import { expenseCategories, transactionTypes } from '@/constants/data'
 import { colors, radius, spacingX, spacingY } from '@/constants/theme'
 import { useAuth } from '@/contexts/authContext'
 import useFetchData from '@/hooks/useFetchData'
-import { createOrUpdateTransaction } from '@/services/transactionService'
-import { deleteWallet } from '@/services/walletService'
+import {
+  createOrUpdateTransaction,
+  deleteTransaction
+} from '@/services/transactionService'
 import { TransactionType, WalletType } from '@/types'
 import { scale, verticalScale } from '@/utils/styling'
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -106,7 +108,7 @@ const TransactionModal = () => {
       category,
       date,
       walletId,
-      image,
+      image: image ? image : null,
       uid: user?.uid
     }
 
@@ -128,11 +130,11 @@ const TransactionModal = () => {
   const onDelete = async () => {
     if (!oldTransaction?.id) return
     setLoading(true)
-    const res = await deleteWallet(oldTransaction.id)
+    const res = await deleteTransaction(oldTransaction.id)
     setLoading(false)
     if (res.success) {
       router.back()
-    } else Alert.alert('Wallet', res.msg || 'Something went wrong')
+    } else Alert.alert('Transaction', res.msg || 'Something went wrong')
   }
 
   const showDeleteAlert = () => {
