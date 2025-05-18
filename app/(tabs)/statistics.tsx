@@ -103,14 +103,16 @@ const Statistics = () => {
               <BarChart
                 data={chartData}
                 barWidth={scale(12)}
-                spacing={scale(25)}
+                spacing={[1, 2].includes(selectedIndex) ? scale(25) : scale(16)}
                 roundedBottom
                 roundedTop
                 hideRules
                 yAxisLabelPrefix='$'
                 yAxisThickness={0}
                 xAxisThickness={0}
-                yAxisLabelWidth={scale(25)}
+                yAxisLabelWidth={
+                  [1, 2].includes(selectedIndex) ? scale(38) : scale(35)
+                }
                 yAxisTextStyle={{ color: colors.neutral350 }}
                 xAxisLabelTextStyle={{
                   color: colors.neutral350,
@@ -118,6 +120,9 @@ const Statistics = () => {
                 }}
                 noOfSections={3}
                 minHeight={5}
+                isAnimated={true}
+                animationDuration={1000}
+                // maxValue={100}
               />
             ) : (
               <View style={styles.noChart} />
