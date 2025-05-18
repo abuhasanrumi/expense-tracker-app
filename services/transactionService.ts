@@ -268,12 +268,8 @@ export const deleteTransaction = async (
     const newIncomeExpenseAmount = walletData[updateType]! - transactionAmount
 
     // if its expense and the wallet amount can go below zero
-    if (transactionType == 'expense' && newWalletAmount < 0) {
-      console.log('Insufficient balance')
-      return {
-        success: false,
-        msg: 'Insufficient balance'
-      }
+    if (transactionType == 'income' && newWalletAmount < 0) {
+      return { success: false, msg: 'You cannot delete this transaction' }
     }
     await createOrUpdateWallet({
       id: walletId,
