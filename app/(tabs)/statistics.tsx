@@ -2,6 +2,7 @@ import Header from '@/components/Header'
 import Loading from '@/components/Loading'
 import ScreenWrapper from '@/components/ScreenWrapper'
 import { colors, radius, spacingX, spacingY } from '@/constants/theme'
+import { useAuth } from '@/contexts/authContext'
 import { scale, verticalScale } from '@/utils/styling'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
 import React, { useEffect, useState } from 'react'
@@ -73,6 +74,7 @@ const Statistics = () => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [chartData, setChartData] = useState(barData)
   const [chartLoading, setChartLoading] = useState(false)
+  const { user } = useAuth()
 
   const getWeeklyStats = () => {}
   const getMonthlyStats = () => {}

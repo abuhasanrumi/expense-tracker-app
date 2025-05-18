@@ -1,12 +1,17 @@
 import { firestore } from '@/config/firebase'
 import { ResponseType, TransactionType, WalletType } from '@/types'
+import { getLast7Days } from '@/utils/common'
 import {
   collection,
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
+  orderBy,
   setDoc,
-  updateDoc
+  Timestamp,
+  updateDoc,
+  where
 } from 'firebase/firestore'
 import { uploadFileToCloudinary } from './imageService'
 import { createOrUpdateWallet } from './walletService'
@@ -285,6 +290,74 @@ export const deleteTransaction = async (
     return {
       success: false,
       msg: err?.message || "Couldn't delete transaction"
+    }
+  }
+}
+
+export const fetchWeeklyStats = async (uid: string): Promise<ResponseType> => {
+  try {
+    const db = firestore
+    const today = new Date()
+    const sevenDaysAgo = new Date(today)
+    sevenDaysAgo.setDate(today.getDate() - 7)
+
+    const transactionQuery = query(
+      collection(db, 'transactions'),
+      where('date', '>=', Timestamp.fromDate(sevenDaysAgo)),
+      where('date', '<=', Timestamp.fromDate(today)),
+      orderBy('date', 'desc'),
+      where('uid', '==', uid)
+    )
+
+    const querySnapshot = await getDocs(transactionQuery)
+    const weeklyData = getLast7Days()
+    const transactions: TransactionType[] = []
+
+    querySnapshot.forEach((doc) => {
+      const transaction = doc.data() as TransactionType
+      transaction.id = doc.id
+      transactions.push(transaction)
+
+      const transactionDate = (transaction.date as Timestamp)
+        .toDate()
+        .toISOString()
+        .split('T')[0]
+
+      const dayData = weeklyData.find((day) => day.date === transactionDate)
+
+      if (dayData) {
+        if (transaction.type === 'income') {
+          dayData.income += Number(transaction.amount)
+        } else if (transaction.type === 'expense') {
+          dayData.expense += Number(transaction.amount)
+        }
+      }
+    })
+
+    // takes each day and creates two entried in an array
+    const stats = weeklyData.flatMap((day) => [
+      {
+        value: day.income,
+        label: day.day,
+        spacing: scale(4),
+        labelWidth: scale(30),
+        frontColor: colors.primary
+      },
+      { value: day.expense, frontColor: colors.rose }
+    ])
+
+    return {
+      success: true,
+      data: {
+        stats,
+        transactions
+      }
+    }
+  } catch (err: any) {
+    console.log('Error fetching weekly stats', err)
+    return {
+      success: false,
+      msg: err?.message || 'Error fetching weekly stats'
     }
   }
 }
