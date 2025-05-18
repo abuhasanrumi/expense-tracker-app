@@ -1,6 +1,8 @@
 import { firestore } from '@/config/firebase'
+import { colors } from '@/constants/theme'
 import { ResponseType, TransactionType, WalletType } from '@/types'
 import { getLast7Days } from '@/utils/common'
+import { scale } from '@/utils/styling'
 import {
   collection,
   deleteDoc,
@@ -8,6 +10,7 @@ import {
   getDoc,
   getDocs,
   orderBy,
+  query,
   setDoc,
   Timestamp,
   updateDoc,
