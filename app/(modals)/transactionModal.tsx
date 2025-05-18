@@ -130,8 +130,13 @@ const TransactionModal = () => {
   const onDelete = async () => {
     if (!oldTransaction?.id) return
     setLoading(true)
-    const res = await deleteTransaction(oldTransaction.id)
+    const res = await deleteTransaction(
+      oldTransaction?.id,
+      oldTransaction?.walletId
+    )
     setLoading(false)
+    console.log('res', res)
+    console.log('res.success', res.success)
     if (res.success) {
       router.back()
     } else Alert.alert('Transaction', res.msg || 'Something went wrong')
@@ -139,8 +144,8 @@ const TransactionModal = () => {
 
   const showDeleteAlert = () => {
     Alert.alert(
-      'Delete Wallet',
-      'Are you sure you want to delete this wallet?',
+      'Confirm',
+      'Are you sure you want to delete this transaction?',
       [
         {
           text: 'Cancel',

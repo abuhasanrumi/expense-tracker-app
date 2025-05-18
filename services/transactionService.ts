@@ -9,6 +9,7 @@ import {
   updateDoc
 } from 'firebase/firestore'
 import { uploadFileToCloudinary } from './imageService'
+import { createOrUpdateWallet } from './walletService'
 
 export const createOrUpdateTransaction = async (
   transactionData: Partial<TransactionType>
@@ -281,6 +282,8 @@ export const deleteTransaction = async (
     })
 
     await deleteDoc(transactionRef)
+
+    return { success: true }
   } catch (err: any) {
     console.log('Error deleting transaction: ', err)
     return {
