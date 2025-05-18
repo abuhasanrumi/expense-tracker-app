@@ -6,7 +6,8 @@ import { colors, radius, spacingX, spacingY } from '@/constants/theme'
 import { useAuth } from '@/contexts/authContext'
 import {
   fetchMonthlyStats,
-  fetchWeeklyStats
+  fetchWeeklyStats,
+  fetchYearlyStats
 } from '@/services/transactionService'
 import { scale, verticalScale } from '@/utils/styling'
 import SegmentedControl from '@react-native-segmented-control/segmented-control'
@@ -43,7 +44,17 @@ const Statistics = () => {
       Alert.alert('Error', res?.message)
     }
   }
-  const getYearlyStats = () => {}
+  const getYearlyStats = async () => {
+    setChartLoading(true)
+    let res = await fetchYearlyStats(user?.uid as string)
+    setChartLoading(false)
+    if (res.success) {
+      setChartData(res?.data?.stats)
+      setTransactions(res?.data?.transactions)
+    } else {
+      Alert.alert('Error', res?.message)
+    }
+  }
 
   useEffect(() => {
     if (selectedIndex === 0) {
