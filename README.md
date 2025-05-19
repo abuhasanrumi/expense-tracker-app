@@ -1,50 +1,58 @@
-# Welcome to your Expo app 👋
+# Expensify - Expense Tracking App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern expense tracking application built with Expo and React Native that helps users manage their finances efficiently.
 
-## Get started
+## Features
 
-1. Install dependencies
+- 📱 Cross-platform support (iOS & Android)
+- 💰 Track income and expenses
+- 🔍 Search transactions
+- 📊 Category-wise expense tracking
+- 🔐 Secure authentication
+- 🌙 Dark mode interface
 
-   ```bash
-   npm install
-   ```
+## Tech Stack
 
-2. Start the app
+- Expo
+- React Native
+- Firebase (Authentication & Firestore)
+- TypeScript
+- Expo Router
 
-   ```bash
-    npx expo start
-   ```
+## Getting Started
 
-In the output, you'll find options to open the app in a
+### Prerequisites
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Node.js
+- npm/yarn
+- Expo CLI
+- Android Studio (for Android development)
+- Xcode (for iOS development)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Installation
 
-## Get a fresh project
-
-When you're ready, run:
+1. Clone the repository
 
 ```bash
-npm run reset-project
+git clone [repo-url]
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Install dependencies
 
-## Learn more
+```bash
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+3. Start the development server
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npx expo start
+```
 
-## Join the community
+### Running the App
 
-Join our community of developers creating universal apps.
+After starting the development server, you can:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Press 'a' to run on Android emulator
+- Press 'i' to run on iOS simulator
+- Scan QR code with Expo Go app on your physical device
