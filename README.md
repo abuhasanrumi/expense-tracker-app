@@ -2,6 +2,12 @@
 
 A modern expense tracking application built with Expo and React Native that helps users manage their finances efficiently. The app features a clean, dark-themed UI with smooth animations and comprehensive financial management capabilities.
 
+## App UI Overview
+
+The following screenshot shows multiple screens of the app in one view:
+
+![App UI Overview](./assets/images/expensify-thumbnail.png)
+
 ## Features
 
 ### Authentication & User Management
